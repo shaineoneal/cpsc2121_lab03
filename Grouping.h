@@ -1,9 +1,10 @@
 /*
- * Name:
- * Date Submitted:
- * Lab Section:
- * Assignment Name:
+ * Name: Shaine O'Neal 
+ * Date Submitted: 9/27/2022
+ * Lab Section: 004
+ * Assignment Name: Finding Groups Using Recursion
  */
+
 
 #pragma once
 
@@ -46,7 +47,8 @@ class Grouping
     public:
         Grouping(); //Default constructor, no groups
         Grouping(string fileName); //Implement this function
-        void findGroup(int r, int c); //Implement this function (recursive)
+        void findGroup(int r, int c, vector<GridSquare> group); //Implement this function (recursive)
         void printGroups(); //Displays grid's groups of squares
         vector<vector<GridSquare>> getGroups(); //Needed in unit tests
+        friend istream& operator>> (istream& is, Grouping& obj); 
 };
