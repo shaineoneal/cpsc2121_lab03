@@ -47,8 +47,9 @@ class Grouping
     public:
         Grouping(); //Default constructor, no groups
         Grouping(string fileName); //Implement this function
-        void findGroup(int r, int c, vector<GridSquare> group); //Implement this function (recursive)
+        vector<GridSquare> findGroup(int r, int c, vector<GridSquare> group); //Implement this function (recursive)
         void printGroups(); //Displays grid's groups of squares
         vector<vector<GridSquare>> getGroups(); //Needed in unit tests
         friend istream& operator>> (istream& is, Grouping& obj); 
+        bool isFound(int r, int c, vector<GridSquare> group); // Determines whether a cell is already stored in groups
 };
