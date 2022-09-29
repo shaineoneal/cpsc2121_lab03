@@ -90,7 +90,6 @@ istream& operator>> (istream& is, Grouping& obj) {
     return is;
 }
 
-
 //Simple main function to test Grouping
 //Be sure to comment out main() before submitting
 int main()
