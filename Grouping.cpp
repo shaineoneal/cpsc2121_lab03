@@ -48,84 +48,60 @@ Grouping::Grouping(string inputFile) {
 
 }
 
-bool Grouping::foundGroups(int row, int col) {
-    if(grid[row][col + 1] == 3) return true;
-    if(grid[row + 1][col] == 3) return true;
-    if(grid[row][col - 1] == 3) return true;
-    if(grid[row - 1][col] == 3) return true;
-    else return false;
+//check if surrounding squares = 1 and create temp vector of squares
+vector<GridSquare> Grouping::findSurrounding(int row, int col) {
+    vector<GridSquare> surrounding;
+
+    if(grid[row + 1][col] == 1) {
+        surrounding.push_back(GridSquare(row + 1, col));
+        grid[row + 1][col] = 3;
+    }
+    if(grid[row][col + 1] == 1) {
+        surrounding.push_back(GridSquare(row, col + 1));
+        grid[row][col + 1] = 3;
+    }
+    if(grid[row - 1][col] == 1) {
+        surrounding.push_back(GridSquare(row - 1, col));
+        grid[row - 1][col] = 3;
+    }
+    if(grid[row][col - 1] == 1) {
+        surrounding.push_back(GridSquare(row, col - 1));
+        grid[row][col - 1] = 3;
+    }
+    return surrounding;
 }
 
 void Grouping::findGroup(int row, int col, vector<GridSquare> group) {
+    vector<GridSquare> surrounding = findSurrounding(row, col);
 
     if(grid[row][col] == 1) {
         group.push_back(GridSquare(row, col));
         grid[row][col] = 3;
-
-        if(grid[row][col + 1] == 1) {
-            findGroup(row, col + 1, group);
-            if(groups.back().at(0) == group.at(0)){
-                group.clear();
-            }
-            return;
-        }
-        if(grid[row + 1][col] == 1) {
-            findGroup(row + 1, col, group); 
-            if(groups.back().at(0) == group.at(0)){
-                group.clear();
-            }
-            return;
-        }
-        if(grid[row][col - 1] == 1) {
-            findGroup(row, col - 1, group);
-            if(groups.back().at(0) == group.at(0)){
-                group.clear();
-            }
-            return;
-        }
-        if(grid[row - 1][col] == 1) {
-            findGroup(row - 1, col, group);
-            if(groups.back().at(0) == group.at(0)){
-                group.clear();
-            }
-            return;
-        }
-        else {
-            //upper right corner
-            if(grid[row + 1][col + 1] == 1 && foundGroups(row, col)) {
-                findGroup(row + 1, col + 1, group);
-                group.clear();
-            }
-            //upper left corner
-            if(grid[row + 1][col - 1] == 1 && foundGroups(row, col)) {
-                findGroup(row + 1, col - 1, group);
-                group.clear();
-            }
-            //lower right corner
-            if(grid[row - 1][col + 1] == 1 && foundGroups(row, col)) {
-                findGroup(row - 1, col + 1, group);
-                group.clear();
-            }
-            //lower left corner
-            if(grid[row - 1][col - 1] == 1 && foundGroups(row, col)) {
-                findGroup(row - 1, col - 1, group);
-                group.clear();
-            }
-        }
-               
     }
-    if(!group.empty()) groups.push_back(group);
+
+    //if surrounding vector is empty, add group to groups vector
+    if(surrounding.empty()) { groups.push_back(group); }
+
+    else {
+        group.insert(group.end(), surrounding.begin(), surrounding.end());
+        for(int i = 0; i < surrounding.size(); i++) {
+            //group.push_back(surrounding.at(i));
+            findGroup(surrounding.at(i).getRow(), surrounding.at(i).getCol(), group);
+        }
+        surrounding.clear();
+    }
+
 }
 
 //Simple main function to test Grouping
 //Be sure to comment out main() before submitting
-/*int main()
+int main()
 {
-    Grouping input1("input3.txt");
+    Grouping input1("input2.txt");
     input1.printGroups();
     
     return 0;
-}*/
+}
 
 //Do not modify anything below
 
