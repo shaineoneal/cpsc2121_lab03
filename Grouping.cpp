@@ -19,9 +19,10 @@ Grouping::Grouping(string inputFile) {
     ifstream file(inputFile);
     vector<GridSquare> group;
     string line;
-//    file.open(inputFile);
-    if (file.is_open())
-    {
+
+    //if file is open
+    if (file.is_open()) {
+        //iterate through values in file and set them equal to 1 or 0
         for(int i = 0; i < 10; i++){
             getline(file, line);
             for (int j = 0; j < 10; j++)
@@ -38,13 +39,22 @@ Grouping::Grouping(string inputFile) {
     file.close();
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 10; j++){
-            group.clear();
-            findGroup(i, j, group);
+            if(grid[i][j] == 1) {
+                group.clear();
+                findGroup(i, j, group);
+            }
         }
     }
 
 }
 
+bool Grouping::foundGroups(int row, int col) {
+    if(grid[row][col + 1] == 3) return true;
+    if(grid[row + 1][col] == 3) return true;
+    if(grid[row][col - 1] == 3) return true;
+    if(grid[row - 1][col] == 3) return true;
+    else return false;
+}
 
 void Grouping::findGroup(int row, int col, vector<GridSquare> group) {
 
@@ -80,26 +90,42 @@ void Grouping::findGroup(int row, int col, vector<GridSquare> group) {
             }
             return;
         }
+        else {
+            //upper right corner
+            if(grid[row + 1][col + 1] == 1 && foundGroups(row, col)) {
+                findGroup(row + 1, col + 1, group);
+                group.clear();
+            }
+            //upper left corner
+            if(grid[row + 1][col - 1] == 1 && foundGroups(row, col)) {
+                findGroup(row + 1, col - 1, group);
+                group.clear();
+            }
+            //lower right corner
+            if(grid[row - 1][col + 1] == 1 && foundGroups(row, col)) {
+                findGroup(row - 1, col + 1, group);
+                group.clear();
+            }
+            //lower left corner
+            if(grid[row - 1][col - 1] == 1 && foundGroups(row, col)) {
+                findGroup(row - 1, col - 1, group);
+                group.clear();
+            }
+        }
                
     }
     if(!group.empty()) groups.push_back(group);
 }
 
-istream& operator>> (istream& is, Grouping& obj) {
-    
-    return is;
-}
-
-
 //Simple main function to test Grouping
 //Be sure to comment out main() before submitting
-int main()
+/*int main()
 {
-    Grouping input1("input2.txt");
+    Grouping input1("input3.txt");
     input1.printGroups();
     
     return 0;
-}
+}*/
 
 //Do not modify anything below
 

@@ -56,6 +56,7 @@ int main()
   bool groupTestPass[] = {false, false, false, false, false,
                           false, false, false, false, false};
 
+  
   Grouping input("input3.txt");
   vector<vector<GridSquare>> groups;
   groups = input.getGroups();

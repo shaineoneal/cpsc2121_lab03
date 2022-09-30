@@ -44,6 +44,7 @@ class Grouping
     private:
         int grid[10][10];
         vector<vector<GridSquare>> groups;
+        bool foundGroups(int r, int c); //checks to see if surrounding squares were already found
     public:
         Grouping(); //Default constructor, no groups
         Grouping(string fileName); //Implement this function
